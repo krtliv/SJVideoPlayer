@@ -136,7 +136,7 @@
 
     [self addSubview:self.backBtn];
     [self addSubview:self.previewBtn];
-    [self addSubview:self.moreBtn];
+   //[self addSubview:self.moreBtn];
     [self addSubview:self.titleLabel];
     
     [_backBtn mas_makeConstraints:^(MASConstraintMaker *make) {

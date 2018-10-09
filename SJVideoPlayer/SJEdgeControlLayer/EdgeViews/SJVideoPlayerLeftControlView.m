@@ -65,8 +65,8 @@
 }
 
 - (void)_leftSetupView {
-    [self addSubview:self.lockBtn];
-    [self addSubview:self.unlockBtn];
+    //[self addSubview:self.lockBtn];
+    //[self addSubview:self.unlockBtn];
     
     [_lockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self->_lockBtn.superview);
