@@ -74,6 +74,8 @@ extern NSNotificationName const SJSettingsPlayerNotification;
 @property (nonatomic, strong) UIImage *replayBtnImage;       // default is `sj_video_player_replay`.
 @property (nonatomic, strong) UIFont *replayBtnFont;         // default is [UIFont boldSystemFontOfSize:12].
 @property (nonatomic, strong) UIColor *replayBtnTitleColor;  // default is white.
+@property (nonatomic, strong) UIImage *playCenterBtnImage;
+@property (nonatomic, strong) UIImage *pauseCenterBtnImage;
 
 @property (nonatomic, strong, readonly) NSString *playFailedBtnTitle;
 @property (nonatomic, strong, nullable) UIImage *playFailedBtnImage;     // default is nil.

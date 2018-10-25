@@ -78,7 +78,7 @@
     self.failedBtn.hidden = YES;
     self.pauseBtn.hidden = YES;
     self.playBtn.hidden = YES;
-    
+
     [UIView animateWithDuration:0.3 animations:^{
         if ( playState ) {
             self.pauseBtn.hidden = NO;
@@ -147,7 +147,7 @@
     self.settingRecroder = [[SJVideoPlayerControlSettingRecorder alloc] initWithSettings:^(SJEdgeControlLayerSettings * _Nonnull setting) {
         __strong typeof(_self) self = _self;
         if ( !self ) return;
-        
+
         [self.replayBtn setAttributedTitle:sj_makeAttributesString(^(SJAttributeWorker * _Nonnull make) {
             if ( setting.replayBtnImage ) {
                 make.insert(setting.replayBtnImage, 0, CGPointZero, setting.replayBtnImage.size);
@@ -186,7 +186,7 @@
             }
             make.alignment(NSTextAlignmentCenter).lineSpacing(6);
         }) forState:UIControlStateNormal];
-        
+
         [self.playBtn setImage:setting.playCenterBtnImage forState:UIControlStateNormal];
         [self.pauseBtn setImage:setting.pauseCenterBtnImage forState:UIControlStateNormal];
         

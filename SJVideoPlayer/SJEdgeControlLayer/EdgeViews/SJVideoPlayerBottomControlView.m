@@ -161,19 +161,19 @@
     [self addSubview:self.durationTimeLabel];
     [self addSubview:self.progressSlider];
     [self addSubview:self.fullBtn];
-    /*
-     [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-     make.leading.offset(6);
-     make.centerY.equalTo(self);
-     make.size.offset(40);
-     }];
-     
-     [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-     make.leading.offset(6);
-     make.centerY.equalTo(self);
-     make.size.offset(35);
-     }];
-     */
+  /*
+    [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.offset(6);
+        make.centerY.equalTo(self);
+        make.size.offset(40);
+    }];
+    
+    [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.offset(6);
+        make.centerY.equalTo(self);
+        make.size.offset(35);
+    }];
+   */
     [_currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
         make.leading.offset(6);

@@ -223,7 +223,7 @@ NS_ASSUME_NONNULL_BEGIN
             
             [self->_bottomControlView appear];
             [self->_centerControlView appear];
-            
+
             if ( videoPlayer.isFullScreen ) {
                 [self->_leftControlView appear];
                 [self->_rightControlView appear];
@@ -351,7 +351,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _topControlView.config.isFullscreen = isFull;
     [_topControlView needUpdateConfig];
-    
+
     _bottomControlView.isFullscreen = isFull;
     
     if ( SJ_is_iPhoneX() ) {
@@ -405,7 +405,7 @@ NS_ASSUME_NONNULL_BEGIN
 #ifdef SJ_MAC
     NSLog(@"%d - %s", (int)__LINE__, __func__);
 #endif
-    
+
     [self.loadingView start];
 }
 
@@ -413,7 +413,7 @@ NS_ASSUME_NONNULL_BEGIN
 #ifdef SJ_MAC
     NSLog(@"%d - %s", (int)__LINE__, __func__);
 #endif
-    
+
     [self.loadingView stop];
 }
 
@@ -421,7 +421,7 @@ NS_ASSUME_NONNULL_BEGIN
 #ifdef SJ_MAC
     NSLog(@"%d - %s", (int)__LINE__, __func__);
 #endif
-    
+
     [self.loadingView stop];
 }
 
@@ -478,11 +478,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark -
-- (void)setupViews {
+- (void)setupViews { 
     [self.controlView addSubview:self.topMaskView];
     [self.controlView addSubview:self.bottomMaskView];
     [self.controlView addSubview:self.containerView];
-    
+
     [self.containerView addSubview:self.topControlView];
     [self.containerView addSubview:self.leftControlView];
     [self.containerView addSubview:self.bottomControlView];
@@ -530,7 +530,7 @@ NS_ASSUME_NONNULL_BEGIN
         make.leading.bottom.trailing.offset(0);
         make.height.offset(1);
     }];
-    
+
     [_centerControlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.offset(0);
     }];
@@ -553,7 +553,7 @@ NS_ASSUME_NONNULL_BEGIN
     _bottomSlider.disappearType = SJDisappearType_Alpha;
     _centerControlView.disappearType = SJDisappearType_Alpha;
     _rightControlView.disappearType = SJDisappearType_Alpha;
-    
+
     __weak typeof(self) _self = self;
     void(^block)(__kindof UIView *view) = ^(__kindof UIView *view) {
         __strong typeof(_self) self = _self;
@@ -717,7 +717,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIView_Animations(CommonAnimaDuration, ^{
         [self.draggingProgressView disappear];
     }, nil);
-    
+
     __weak typeof(self) _self = self;
     [self.videoPlayer seekToTime:self.draggingProgressView.shiftProgress * self.videoPlayer.totalTime completionHandler:^(BOOL finished) {
         __strong typeof(_self) self = _self;

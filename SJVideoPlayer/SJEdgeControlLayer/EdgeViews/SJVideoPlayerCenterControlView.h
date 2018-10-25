@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger, SJVideoPlayerCenterViewTag) {
     SJVideoPlayerCenterViewTag_Failed,
     SJVideoPlayerCenterViewTag_Replay,
+    SJVideoPlayerCenterViewTag_Play,
+    SJVideoPlayerCenterViewTag_Pause,
 };
 
 @protocol SJVideoPlayerCenterControlViewDelegate;
@@ -24,6 +26,8 @@ typedef NS_ENUM(NSUInteger, SJVideoPlayerCenterViewTag) {
 - (void)failedState;
 
 - (void)replayState;
+
+@property (nonatomic) BOOL playState;
 
 @end
 
