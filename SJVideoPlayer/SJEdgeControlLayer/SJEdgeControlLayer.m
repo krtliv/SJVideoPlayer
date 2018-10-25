@@ -214,9 +214,9 @@ NS_ASSUME_NONNULL_END
     [self.bottomControlView setCurrentTimeStr:videoPlayer.currentTimeStr totalTimeStr:videoPlayer.totalTimeStr];
     
     [self _promptWithNetworkStatus:videoPlayer.networkStatus];
-
+    
     _rightControlView.hidden = asset.isM3u8;
-
+    
     
     SJAutoRotateSupportedOrientation supportedOrientation = _videoPlayer.supportedOrientation;
     
@@ -240,11 +240,10 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)controlLayerNeedAppear:(SJBaseVideoPlayer *)videoPlayer compeletionHandler:(void(^)(void))compeletionHandler {
-
+    
     UIView_Animations(CommonAnimaDuration, ^{
         if ( [videoPlayer playStatus_isInactivity_ReasonPlayFailed] ) {
             [self->_centerControlView failedState];
-            [self->_centerControlView appear];
             [self->_topControlView appear];
             [self->_leftControlView disappear];
             [self->_bottomControlView disappear];
@@ -269,9 +268,7 @@ NS_ASSUME_NONNULL_END
                 [self->_rightControlView disappear];
             }
             [self->_bottomSlider disappear];
-            
-            if ( [videoPlayer playStatus_isInactivity_ReasonPlayEnd] ) [self->_centerControlView appear];
-            else [self->_centerControlView disappear];
+            [self->_centerControlView appear];
         }
         
         if ( self->_moreSettingsView.appearState ) [self->_moreSettingsView disappear];
@@ -285,6 +282,7 @@ NS_ASSUME_NONNULL_END
         if ( ![videoPlayer playStatus_isInactivity_ReasonPlayFailed] ) {
             [self->_topControlView disappear];
             [self->_bottomControlView disappear];
+            [self->_centerControlView disappear];
             [self->_rightControlView disappear];
             if ( !videoPlayer.isLockedScreen ) [self->_leftControlView disappear];
             else [self->_leftControlView appear];
@@ -318,41 +316,33 @@ NS_ASSUME_NONNULL_END
             [self.topControlView needUpdateConfig];
         }
             break;
-        case SJVideoPlayerPlayStatusPrepare: { 
+        case SJVideoPlayerPlayStatusPrepare: {
             [videoPlayer controlLayerNeedDisappear];
             self.bottomSlider.value = 0;
             self.bottomControlView.progress = 0;
             self.bottomControlView.bufferProgress = 0;
             [self.bottomControlView setCurrentTimeStr:@"00:00" totalTimeStr:@"00:00"];
             self.bottomControlView.playState = NO;
+            self.centerControlView.playState = NO;
         }
             break;
         case SJVideoPlayerPlayStatusReadyToPlay: break;
         case SJVideoPlayerPlayStatusPlaying: {
             self.bottomControlView.playState = YES;
-            if ( [self.centerControlView appearState] ) {
-                UIView_Animations(CommonAnimaDuration, ^{
-                    [self.centerControlView disappear];
-                }, nil);
-            }
+            self.centerControlView.playState = YES;
         }
             break;
         case SJVideoPlayerPlayStatusPaused:
-            if ( [videoPlayer playStatus_isPaused_ReasonBuffering] ) {
-                if ( self.centerControlView.appearState ) {
-                    UIView_Animations(CommonAnimaDuration, ^{
-                        [self.centerControlView disappear];
-                    }, nil);
-                }
-            }
             self.bottomControlView.playState = NO;
+            self.centerControlView.playState = NO;
             break;
         case SJVideoPlayerPlayStatusInactivity: {
             self.bottomControlView.playState = NO;
+            self.centerControlView.playState = NO;
             UIView_Animations(CommonAnimaDuration, ^{
                 [self.centerControlView appear];
                 if ( [videoPlayer playStatus_isInactivity_ReasonPlayEnd] ) [self.centerControlView replayState];
-                else [self.centerControlView failedState];
+                if ( [videoPlayer playStatus_isInactivity_ReasonPlayFailed]) [self.centerControlView failedState];
             }, nil);
         }
             break;
@@ -381,7 +371,7 @@ NS_ASSUME_NONNULL_END
 #ifdef SJ_MAC
     NSLog(@"%d - %s", (int)__LINE__, __func__);
 #endif
-
+    
     [self.loadingView start];
     self.bottomControlView.isLoading = YES;
 }
@@ -390,7 +380,7 @@ NS_ASSUME_NONNULL_END
 #ifdef SJ_MAC
     NSLog(@"%d - %s", (int)__LINE__, __func__);
 #endif
-
+    
     [self.loadingView stop];
     self.bottomControlView.isLoading = NO;
 }
@@ -400,7 +390,7 @@ NS_ASSUME_NONNULL_END
 #ifdef SJ_MAC
     NSLog(@"%d - %s", (int)__LINE__, __func__);
 #endif
-
+    
     [self.loadingView stop];
     self.bottomControlView.isLoading = NO;
 }
@@ -472,7 +462,7 @@ NS_ASSUME_NONNULL_END
 
 /// 播放器完成旋转.
 //- (void)videoPlayer:(SJBaseVideoPlayer *)videoPlayer didEndRotation:(BOOL)isFull {
-//    
+//
 //}
 
 #pragma mark - Fit On Screen
@@ -561,7 +551,7 @@ NS_ASSUME_NONNULL_END
     if ( self.disableNetworkStatusChangePrompt ) return;
     if ( [self.videoPlayer.assetURL isFileURL] ) return; // return when is local video.
     if ( !self.settings ) return;
- 
+    
     switch ( status ) {
         case SJNetworkStatus_NotReachable: {
             [self.videoPlayer showTitle:self.settings.notReachablePrompt duration:3];
@@ -653,7 +643,7 @@ NS_ASSUME_NONNULL_END
     [_loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.offset(0);
     }];
-
+    
     [self _setControlViewsDisappearValue];
     
     [_bottomSlider disappear];
@@ -696,15 +686,15 @@ NS_ASSUME_NONNULL_END
     
     _topControlMaskView.disappearType = _topControlView.disappearType = SJDisappearType_All;
     _topControlMaskView.disappearTransform = _topControlView.disappearTransform = CGAffineTransformMakeTranslation(0, -_topControlView.intrinsicContentSize.height);
-
+    
     _leftControlView.disappearType = SJDisappearType_All;
     _leftControlView.disappearTransform = CGAffineTransformMakeTranslation(-_leftControlView.intrinsicContentSize.width, 0);
-
+    
     _centerControlView.disappearType = SJDisappearType_Alpha;
-
+    
     _bottomControlMaskView.disappearType = _bottomControlView.disappearType = SJDisappearType_All;
     _bottomControlMaskView.disappearTransform = _bottomControlView.disappearTransform = CGAffineTransformMakeTranslation(0, _bottomControlView.intrinsicContentSize.height);
-
+    
     _rightControlView.disappearType = SJDisappearType_All;
     _rightControlView.disappearTransform = CGAffineTransformMakeTranslation(_rightControlView.intrinsicContentSize.width, 0);
     
@@ -712,13 +702,13 @@ NS_ASSUME_NONNULL_END
     
     _previewView.disappearType = SJDisappearType_All;
     _previewView.disappearTransform = CGAffineTransformMakeScale(1, 0.001);
-
+    
     self.moreSettingsView.disappearType = SJDisappearType_Transform;
     _moreSettingsView.disappearTransform = CGAffineTransformMakeTranslation(_moreSettingsView.intrinsicContentSize.width, 0);
-
+    
     self.moreSecondarySettingView.disappearType = SJDisappearType_Transform;
     _moreSecondarySettingView.disappearTransform = CGAffineTransformMakeTranslation(_moreSecondarySettingView.intrinsicContentSize.width, 0);
-
+    
     _draggingProgressView.disappearType = SJDisappearType_Alpha;
 }
 
@@ -856,12 +846,20 @@ NS_ASSUME_NONNULL_END
     switch ( tag ) {
         case SJVideoPlayerCenterViewTag_Replay: {
             [_videoPlayer replay];
+            [_videoPlayer controlLayerNeedDisappear];
         }
             break;
         case SJVideoPlayerCenterViewTag_Failed: {
             [_videoPlayer refresh];
         }
             break;
+        case SJVideoPlayerCenterViewTag_Play: {
+            [self.videoPlayer play];
+        }
+            break;
+        case SJVideoPlayerCenterViewTag_Pause: {
+            [self.videoPlayer pause];
+        }
         default:
             break;
     }
@@ -942,7 +940,7 @@ NS_ASSUME_NONNULL_END
     UIView_Animations(CommonAnimaDuration, ^{
         [self.draggingProgressView disappear];
     }, nil);
-
+    
     __weak typeof(self) _self = self;
     [self.videoPlayer seekToTime:self.draggingProgressView.shiftProgress * self.videoPlayer.totalTime completionHandler:^(BOOL finished) {
         __strong typeof(_self) self = _self;
