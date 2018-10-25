@@ -114,7 +114,9 @@
     }];
     
     [_replayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.offset(0);
+        make.center.centerY.equalTo(self);
+        make.center.centerX.equalTo(self);
+        make.size.offset(74);
     }];
 }
 
