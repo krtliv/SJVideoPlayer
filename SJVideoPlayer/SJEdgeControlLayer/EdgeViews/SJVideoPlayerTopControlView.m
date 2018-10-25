@@ -44,6 +44,7 @@
     [self _topSetupViews];
     [self _topSettingHelper];
     _config = [SJVideoPlayerTopControlConfig new];
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.63];
     return self;
 }
 
@@ -133,15 +134,16 @@
 }
 
 - (void)_topSetupViews {
-
+    
     [self addSubview:self.backBtn];
     [self addSubview:self.previewBtn];
-   //[self addSubview:self.moreBtn];
+    //[self addSubview:self.moreBtn];
     [self addSubview:self.titleLabel];
     
     [_backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
         make.size.offset(49);
-        make.leading.bottom.offset(0);
+        make.leading.offset(0);
     }];
     
     [_previewBtn mas_makeConstraints:^(MASConstraintMaker *make) {
