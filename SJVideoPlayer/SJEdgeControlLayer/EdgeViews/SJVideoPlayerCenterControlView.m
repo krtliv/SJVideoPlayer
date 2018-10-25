@@ -28,18 +28,22 @@
 
 @property (nonatomic, strong, readonly) UIButton *failedBtn;
 @property (nonatomic, strong, readonly) UIButton *replayBtn;
-
+@property (nonatomic, strong, readonly) UIButton *playBtn;
+@property (nonatomic, strong, readonly) UIButton *pauseBtn;
 @end
 
 @implementation SJVideoPlayerCenterControlView
 @synthesize failedBtn = _failedBtn;
 @synthesize replayBtn = _replayBtn;
+@synthesize playBtn = _playBtn;
+@synthesize pauseBtn = _pauseBtn;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if ( !self ) return nil;
     [self _centerSetupView];
     [self _centerSettings];
+    self.playState = NO;
     return self;
 }
 
@@ -55,17 +59,56 @@
 
 - (void)failedState {
     self.replayBtn.hidden = YES;
+    self.playBtn.hidden = YES;
+    self.pauseBtn.hidden = YES;
     self.failedBtn.hidden = NO;
 }
 
 - (void)replayState {
-    self.replayBtn.hidden = NO;
     self.failedBtn.hidden = YES;
+    self.playBtn.hidden = YES;
+    self.pauseBtn.hidden = YES;
+    self.replayBtn.hidden = NO;
+}
+
+- (void)setPlayState:(BOOL)playState {
+    _playState = playState;
+    
+    self.replayBtn.hidden = YES;
+    self.failedBtn.hidden = YES;
+    self.pauseBtn.hidden = YES;
+    self.playBtn.hidden = YES;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        if ( playState ) {
+            self.pauseBtn.hidden = NO;
+            self.playBtn.alpha = 0.001;
+            self.pauseBtn.alpha = 1;
+        }
+        else {
+            self.playBtn.hidden = NO;
+            self.playBtn.alpha = 1;
+            self.pauseBtn.alpha = 0.001;
+        }
+    }];
 }
 
 - (void)_centerSetupView {
     [self addSubview:self.failedBtn];
     [self addSubview:self.replayBtn];
+    [self addSubview:self.playBtn];
+    [self addSubview:self.pauseBtn];
+    
+    [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.centerY.equalTo(self);
+        make.center.centerX.equalTo(self);
+        make.size.offset(74);
+    }];
+    [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.centerY.equalTo(self);
+        make.center.centerX.equalTo(self);
+        make.size.offset(74);
+    }];
     [_failedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.offset(0);
     }];
@@ -85,6 +128,18 @@
     _replayBtn = [SJUIButtonFactory buttonWithImageName:@"" target:self sel:@selector(clickedBtn:) tag:SJVideoPlayerCenterViewTag_Replay];
     _replayBtn.titleLabel.numberOfLines = 0;
     return _replayBtn;
+}
+
+- (UIButton *)playBtn {
+    if ( _playBtn ) return _playBtn;
+    _playBtn = [SJUIButtonFactory buttonWithImageName:@"" target:self sel:@selector(clickedBtn:) tag:SJVideoPlayerCenterViewTag_Play];
+    return _playBtn;
+}
+
+- (UIButton *)pauseBtn {
+    if ( _pauseBtn ) return _pauseBtn;
+    _pauseBtn = [SJUIButtonFactory buttonWithImageName:@"" target:self sel:@selector(clickedBtn:) tag:SJVideoPlayerCenterViewTag_Pause];
+    return _pauseBtn;
 }
 
 - (void)_centerSettings {
@@ -131,7 +186,10 @@
             }
             make.alignment(NSTextAlignmentCenter).lineSpacing(6);
         }) forState:UIControlStateNormal];
-
+        
+        [self.playBtn setImage:setting.playCenterBtnImage forState:UIControlStateNormal];
+        [self.pauseBtn setImage:setting.pauseCenterBtnImage forState:UIControlStateNormal];
+        
     }];
 }
 

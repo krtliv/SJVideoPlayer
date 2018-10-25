@@ -78,7 +78,7 @@
 - (void)_needUpdateFullscreenLayout {
     // back btn
     self.backBtn.hidden = NO;
-
+    
     // title label layout
     self.title = _config.title;
     [_titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -109,7 +109,7 @@
             make.trailing.equalTo(self->_moreBtn.mas_centerX).offset(8);
         }];
     }
-
+    
     self.previewBtn.hidden = YES;
     self.moreBtn.hidden = YES;
 }

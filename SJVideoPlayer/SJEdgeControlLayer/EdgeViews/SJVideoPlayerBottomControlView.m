@@ -52,6 +52,7 @@
     [self _bottomSetupView];
     [self _bottomSettingHelper];
     self.playState = NO;
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.63];
     return self;
 }
 
@@ -153,31 +154,34 @@
 #pragma mark -
 
 - (void)_bottomSetupView {
-    [self addSubview:self.playBtn];
-    [self addSubview:self.pauseBtn];
+    //[self addSubview:self.playBtn];
+    //[self addSubview:self.pauseBtn];
     [self addSubview:self.currentTimeLabel];
     [self addSubview:self.separateLabel];
     [self addSubview:self.durationTimeLabel];
     [self addSubview:self.progressSlider];
     [self addSubview:self.fullBtn];
-    
-    [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.leading.offset(0);
-        make.size.offset(49);
-    }];
-    
-    [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self->_playBtn);
-    }];
-    
+    /*
+     [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.leading.offset(6);
+     make.centerY.equalTo(self);
+     make.size.offset(40);
+     }];
+     
+     [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.leading.offset(6);
+     make.centerY.equalTo(self);
+     make.size.offset(35);
+     }];
+     */
     [_currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self->_separateLabel);
-        make.leading.equalTo(self->_playBtn.mas_trailing).offset(-8);
+        make.centerY.equalTo(self);
+        make.leading.offset(6);
         make.width.equalTo(self->_durationTimeLabel).offset(8);
     }];
     
     [_separateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self->_playBtn);
+        make.centerY.equalTo(self->_currentTimeLabel);
         make.leading.equalTo(self->_currentTimeLabel.mas_trailing);
     }];
     
@@ -188,18 +192,18 @@
     
     [_progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self->_durationTimeLabel.mas_trailing).offset(12);
-        make.height.centerY.equalTo(self->_playBtn);
+        make.height.centerY.equalTo(self->_currentTimeLabel);
         make.trailing.equalTo(self->_fullBtn.mas_leading).offset(-8);
     }];
     
     [_fullBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self->_playBtn);
-        make.centerY.equalTo(self->_playBtn);
-        make.trailing.offset(0);
+        make.size.offset(40);
+        make.centerY.equalTo(self->_currentTimeLabel);
+        make.trailing.offset(-6);
     }];
     
     [SJUIFactory boundaryProtectedWithView:_fullBtn];
-    [SJUIFactory boundaryProtectedWithView:_playBtn];
+    //[SJUIFactory boundaryProtectedWithView:_playBtn];
     [SJUIFactory boundaryProtectedWithView:_durationTimeLabel];
     [SJUIFactory boundaryProtectedWithView:_progressSlider];
 }
