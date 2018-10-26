@@ -341,7 +341,12 @@ NS_ASSUME_NONNULL_END
             self.centerControlView.playState = NO;
             UIView_Animations(CommonAnimaDuration, ^{
                 [self.centerControlView appear];
-                if ( [videoPlayer playStatus_isInactivity_ReasonPlayEnd] ) [self.centerControlView replayState];
+                if ( [videoPlayer playStatus_isInactivity_ReasonPlayEnd] ){
+                    [self.bottomControlView setCurrentTimeStr:videoPlayer.totalTimeStr totalTimeStr:videoPlayer.totalTimeStr];
+                    self.bottomSlider.value = 1;
+                    self.bottomControlView.progress = 1;
+                    [self.centerControlView replayState];
+                }
                 if ( [videoPlayer playStatus_isInactivity_ReasonPlayFailed]) [self.centerControlView failedState];
             }, nil);
         }
