@@ -44,7 +44,7 @@
     [self _topSetupViews];
     [self _topSettingHelper];
     _config = [SJVideoPlayerTopControlConfig new];
-    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.63];
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
     return self;
 }
 

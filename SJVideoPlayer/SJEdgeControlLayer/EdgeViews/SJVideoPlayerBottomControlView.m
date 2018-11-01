@@ -52,7 +52,7 @@
     [self _bottomSetupView];
     [self _bottomSettingHelper];
     self.playState = NO;
-    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.63];
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
     return self;
 }
 

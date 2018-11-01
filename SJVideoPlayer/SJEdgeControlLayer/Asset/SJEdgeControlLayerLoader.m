@@ -35,13 +35,8 @@ NSString *const SJVideoPlayer_ReachableViaWWANPrompt = @"SJVideoPlayer_Reachable
         if ( [language hasPrefix:@"en"] ) {
             language = @"en";
         }
-        else if ( [language hasPrefix:@"zh"] ) {
-            if ( [language containsString:@"Hans"] ) {
-                language = @"zh-Hans";
-            }
-            else {
-                language = @"zh-Hant";
-            }
+        else if ( [language hasPrefix:@"ar"] ) {
+            language = @"ar";
         }
         else {
             language = @"en";
