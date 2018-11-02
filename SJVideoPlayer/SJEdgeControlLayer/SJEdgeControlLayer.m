@@ -922,7 +922,7 @@ NS_ASSUME_NONNULL_END
         [self.draggingProgressView appear];
     }, nil);
     [self.draggingProgressView setTimeShiftStr:self.videoPlayer.currentTimeStr totalTimeStr:self.videoPlayer.totalTimeStr];
-    [_videoPlayer controlLayerNeedDisappear];
+    //[_videoPlayer controlLayerNeedDisappear];
     self.draggingProgressView.playProgress = self.videoPlayer.progress;
     self.draggingProgressView.shiftProgress = self.videoPlayer.progress;
 }

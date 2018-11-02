@@ -191,15 +191,17 @@
     }];
     
     [_progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self->_durationTimeLabel.mas_trailing).offset(12);
-        make.height.centerY.equalTo(self->_currentTimeLabel);
-        make.trailing.equalTo(self->_fullBtn.mas_leading).offset(-8);
+        make.leading.offset(90);
+        make.centerY.equalTo(self);
+        make.size.width.offset(200).priorityMedium;
+        make.trailing.offset(-47);
     }];
     
     [_fullBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.offset(40);
         make.centerY.equalTo(self->_currentTimeLabel);
         make.trailing.offset(-6);
+        _fullBtn.contentEdgeInsets = UIEdgeInsetsMake(-10, -10, -10, -10);
     }];
     
     [SJUIFactory boundaryProtectedWithView:_fullBtn];
@@ -225,6 +227,7 @@
     _progressSlider = [SJProgressSlider new];
     _progressSlider.enableBufferProgress = YES;
     _progressSlider.delegate = self;
+    _progressSlider.pan.enabled = YES;
     return _progressSlider;
 }
 
