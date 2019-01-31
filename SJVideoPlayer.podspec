@@ -10,11 +10,11 @@ Pod::Spec.new do |s|
     s.platform     = :ios, '8.0'
     s.source       = { :git => 'https://github.com/krtliv/SJVideoPlayer.git', :tag => "v#{s.version}" }
     s.requires_arc = true
-    s.dependency 'Masonry', "~> 1.1.0"
-    s.dependency 'SJBaseVideoPlayer' , "~> 2.0.5"
-    s.dependency 'SJFullscreenPopGesture', "~> 1.4.6"
-    s.dependency 'SJUIFactory', "~> 0.0.16"
-    s.dependency 'SJAttributesFactory', "~> 2.0.5"
+    s.dependency 'Masonry', "~> <=1.1.0"
+    s.dependency 'SJBaseVideoPlayer' , "~> <=2.0.5"
+    s.dependency 'SJFullscreenPopGesture', "~> <=1.4.6"
+    s.dependency 'SJUIFactory', "~> <=0.0.16"
+    s.dependency 'SJAttributesFactory', "~> <=2.0.5"
 
     s.source_files = 'SJVideoPlayer/*.{h,m}'
 
