@@ -20,7 +20,7 @@
 #endif
 #import "SJVideoPlayerControlMaskView.h"
 #import "UIView+SJVideoPlayerSetting.h"
-
+#import "SJEdgeControlLayerLoader.h"
 
 @interface SJVideoPlayerBottomControlView ()<SJProgressSliderDelegate>
 
@@ -117,6 +117,12 @@
 }
 
 - (void)setCurrentTimeStr:(NSString *)currentTimeStr totalTimeStr:(NSString *)totalTimeStr {
+    if ([totalTimeStr containsString:@"00:00:00"] || [totalTimeStr containsString:@":-"]) {
+        self.currentTimeLabel.text = @"";
+        self.durationTimeLabel.text = [SJEdgeControlLayerLoader localizedStringForKey:SJVideoPlayer_LiveNow];
+        self.separateLabel.text = @"";
+        return;
+    }
     self.currentTimeLabel.text = currentTimeStr;
     self.durationTimeLabel.text = totalTimeStr;
 }
@@ -161,33 +167,30 @@
     [self addSubview:self.durationTimeLabel];
     [self addSubview:self.progressSlider];
     [self addSubview:self.fullBtn];
-  /*
-    [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.offset(6);
-        make.centerY.equalTo(self);
-        make.size.offset(40);
-    }];
-    
-    [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.offset(6);
-        make.centerY.equalTo(self);
-        make.size.offset(35);
-    }];
-   */
+    /*
+     [_playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.leading.offset(6);
+     make.centerY.equalTo(self);
+     make.size.offset(40);
+     }];
+     
+     [_pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.leading.offset(6);
+     make.centerY.equalTo(self);
+     make.size.offset(35);
+     }];
+     */
     [_currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
         make.leading.offset(6);
-        make.width.equalTo(self->_durationTimeLabel).offset(8);
+        make.trailing.equalTo(self->_separateLabel.mas_leading);
     }];
     
     [_separateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self->_currentTimeLabel);
         make.leading.equalTo(self->_currentTimeLabel.mas_trailing);
-    }];
-    
-    [_durationTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self->_separateLabel.mas_trailing);
-        make.centerY.equalTo(self->_separateLabel);
+        make.trailing.equalTo(self->_durationTimeLabel.mas_leading);
+        make.size.offset(8);
     }];
     
     [_progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -195,6 +198,12 @@
         make.centerY.equalTo(self);
         make.size.width.offset(200).priorityMedium;
         make.trailing.offset(-47);
+    }];
+    
+    [_durationTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self->_separateLabel.mas_trailing);
+        make.centerY.equalTo(self->_separateLabel);
+        make.trailing.equalTo(self->_progressSlider.mas_leading).offset(-5);
     }];
     
     [_fullBtn mas_makeConstraints:^(MASConstraintMaker *make) {
